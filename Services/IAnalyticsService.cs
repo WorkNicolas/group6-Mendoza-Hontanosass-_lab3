@@ -1,6 +1,4 @@
-﻿using group6_Mendoza_Hontanosass__lab3.Models.ViewModels;
-
-/// <summary>
+﻿/// <summary>
 /// Analytics Service Interface
 /// </summary>
 /// <remarks>
@@ -10,6 +8,7 @@
 /// <version>0.1</version>
 /// <date>2025-10-26</date>
 using group6_Mendoza_Hontanosass__lab3.Models.ViewModels;
+
 namespace group6_Mendoza_Hontanosass__lab3.Services
 {
     public interface IAnalyticsService
@@ -17,6 +16,5 @@ namespace group6_Mendoza_Hontanosass__lab3.Services
         Task<AnalyticsViewModel> GetDashboardDataAsync(string? userId = null, bool isAdmin = false);
         Task<List<TopEpisode>> GetTopEpisodesByViewsAsync(int count = 10);
         Task<List<PodcastStats>> GetPodcastStatisticsAsync();
-
     }
 }

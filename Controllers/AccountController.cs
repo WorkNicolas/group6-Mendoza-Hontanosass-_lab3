@@ -1,10 +1,4 @@
 ﻿
-using group6_Mendoza_Hontanosass__lab3.Models;
-using group6_Mendoza_Hontanosass__lab3.Models.ViewModels;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-
 /// <summary>
 /// Account Controller
 /// </summary>

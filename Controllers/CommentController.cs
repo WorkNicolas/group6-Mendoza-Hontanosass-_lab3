@@ -1,8 +1,4 @@
-﻿using group6_Mendoza_Hontanosass__lab3.Data.Repositories;
-using group6_Mendoza_Hontanosass__lab3.Models;
-using group6_Mendoza_Hontanosass__lab3.Models.ViewModels;
-using group6_Mendoza_Hontanosass__lab3.Services;
-/// <summary>
+﻿/// <summary>
 /// Comment Controller
 /// </summary>
 /// <remarks>

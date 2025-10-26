@@ -17,7 +17,7 @@ namespace group6_Mendoza_Hontanosass__lab3.Models.ViewModels
         public string CreatorName { get; set; } = string.Empty;
         public DateTime ReleaseDate { get; set; }
         public int Duration { get; set; }
-        public string AudioFileUURL { get; set; } = string.Empty;
+        public string AudioFileURL { get; set; } = string.Empty;
         public bool IsApproved { get; set; }
     }
 }

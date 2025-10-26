@@ -9,6 +9,7 @@
 /// <date>2025-10-26</date>
 using group6_Mendoza_Hontanosass__lab3.Data.Repositories;
 using group6_Mendoza_Hontanosass__lab3.Models.ViewModels;
+
 namespace group6_Mendoza_Hontanosass__lab3.Services
 {
     public class AnalyticsService : IAnalyticsService
@@ -91,19 +92,19 @@ namespace group6_Mendoza_Hontanosass__lab3.Services
             {
                 var podcastWithEpisodes = await _podcastRepository.GetByIdWithEpisodesAsync(podcast.PodcastID);
                 var subscriberCount = await _podcastRepository.GetSubscriberCountAsync(podcast.PodcastID);
-                var totalViews = podcastWithEpisodes?.Episodes.Sum(e => e.Views) ?? 0;
+                var totalViews = podcastWithEpisodes?.Episodes?.Sum(e => e.Views) ?? 0;
 
                 podcastStats.Add(new PodcastStats
                 {
                     PodcastID = podcast.PodcastID,
                     Title = podcast.Title,
-                    EpisodeCount = podcastWithEpisodes?.Episodes.Count ?? 0,
+                    EpisodeCount = podcastWithEpisodes?.Episodes?.Count ?? 0,  // Fixed: Added null check
                     TotalViews = totalViews,
                     SubscriberCount = subscriberCount
                 });
             }
 
             return podcastStats.OrderByDescending(p => p.TotalViews).ToList();
-
         }
     }
+}

@@ -11,6 +11,7 @@ using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.DataModel;
 using Amazon.DynamoDBv2.DocumentModel;
 using group6_Mendoza_Hontanosass__lab3.Models;
+
 namespace group6_Mendoza_Hontanosass__lab3.Data.Repositories
 {
     public class CommentRepository : ICommentRepository
@@ -19,7 +20,12 @@ namespace group6_Mendoza_Hontanosass__lab3.Data.Repositories
 
         public CommentRepository(IAmazonDynamoDB dynamoDbClient)
         {
-            _context = new DynamoDBContext(dynamoDbClient); // CS0618: Not null
+            var config = new DynamoDBContextConfig
+            {
+                ConsistentRead = false,
+                SkipVersionCheck = false
+            };
+            _context = new DynamoDBContext(dynamoDbClient, config);
         }
 
         public async Task<IEnumerable<Comment>> GetByEpisodeIdAsync(int episodeId)
@@ -41,12 +47,13 @@ namespace group6_Mendoza_Hontanosass__lab3.Data.Repositories
 
         public async Task<IEnumerable<Comment>> GetByUserIdAsync(string userId)
         {
-            var config = new DynamoDBOperationConfig
+            // Fixed: Use QueryConfig instead of DynamoDBOperationConfig
+            var queryConfig = new QueryConfig
             {
                 IndexName = "UserID-Index"
             };
 
-            var search = _context.QueryAsync<Comment>(userId, config); // DEPRECATED: idk what to replace this with
+            var search = _context.QueryAsync<Comment>(userId, queryConfig);
             var comments = await search.GetRemainingAsync();
             return comments.OrderByDescending(c => c.Timestamp);
         }

@@ -8,17 +8,14 @@
 /// <author>Carl Nicolas Mendoza and Neil Hontanosas</author>
 /// <version>0.1</version>
 /// <date>2025-10-25</date>
-using group6_Mendoza_Hontanosass__lab3.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using group6_Mendoza_Hontanosass__lab3.Data;
-using group6_Mendoza_Hontanosass__lab3.Data.Repositories;
 using group6_Mendoza_Hontanosass__lab3.Models;
-// using group6_Mendoza_Hontanosass__lab3.Services;
-using Amazon.DynamoDBv2;
+using group6_Mendoza_Hontanosass__lab3.Services;
+using group6_Mendoza_Hontanosass__lab3.Data.Repositories;
 using Amazon.S3;
-using Amazon.Extensions.NETCore.Setup;
-using Amazon.DynamoDBv2.DataModel;
+using Amazon.DynamoDBv2;
 
 var builder = WebApplication.CreateBuilder(args);
 

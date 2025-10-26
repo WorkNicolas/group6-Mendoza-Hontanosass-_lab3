@@ -10,6 +10,7 @@
 using group6_Mendoza_Hontanosass__lab3.Data.Repositories;
 using group6_Mendoza_Hontanosass__lab3.Models;
 using group6_Mendoza_Hontanosass__lab3.Models.ViewModels;
+
 namespace group6_Mendoza_Hontanosass__lab3.Services
 {
     public class EpisodeService : IEpisodeService
@@ -82,7 +83,7 @@ namespace group6_Mendoza_Hontanosass__lab3.Services
             {
                 PodcastID = model.PodcastID,
                 Title = model.Title,
-                Description = model.Description,
+                Description = model.Description ?? string.Empty,
                 ReleaseDate = model.ReleaseDate,
                 Duration = model.Duration
             };
@@ -102,7 +103,8 @@ namespace group6_Mendoza_Hontanosass__lab3.Services
             if (model.ThumbnailFile != null)
             {
                 var thumbnailFolder = _configuration["AWS:S3:ThumbnailFolder"] ?? "thumbnails";
-                episode.ThumbnailURL = await _s3Service.UploadFileAsync(model.ThumbnailFile, thumbnailFolder);
+                var thumbnailUrl = await _s3Service.UploadFileAsync(model.ThumbnailFile, thumbnailFolder);
+                episode.ThumbnailURL = thumbnailUrl ?? string.Empty;  // Fixed: Handle null with ?? operator
             }
 
             return await _episodeRepository.CreateAsync(episode);
@@ -114,7 +116,7 @@ namespace group6_Mendoza_Hontanosass__lab3.Services
                 ?? throw new ArgumentException("Episode not found");
 
             episode.Title = model.Title;
-            episode.Description = model.Description;
+            episode.Description = model.Description ?? string.Empty;
             episode.ReleaseDate = model.ReleaseDate;
             episode.Duration = model.Duration;
 
@@ -141,7 +143,8 @@ namespace group6_Mendoza_Hontanosass__lab3.Services
                 }
 
                 var thumbnailFolder = _configuration["AWS:S3:ThumbnailFolder"] ?? "thumbnails";
-                episode.ThumbnailURL = await _s3Service.UploadFileAsync(model.ThumbnailFile, thumbnailFolder);
+                var thumbnailUrl = await _s3Service.UploadFileAsync(model.ThumbnailFile, thumbnailFolder);
+                episode.ThumbnailURL = thumbnailUrl ?? string.Empty;  // Fixed: Handle null with ?? operator
             }
 
             return await _episodeRepository.UpdateAsync(episode);
@@ -199,6 +202,5 @@ namespace group6_Mendoza_Hontanosass__lab3.Services
                 model.SortBy
             );
         }
-
     }
 }
