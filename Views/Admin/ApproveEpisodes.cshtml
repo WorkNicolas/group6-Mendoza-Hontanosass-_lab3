@@ -1,0 +1,53 @@
+@model IEnumerable<group6_Mendoza_Hontanosass__lab3.Models.ViewModels.EpisodeApprovalViewModel>
+@{
+    ViewData["Title"] = "Approve Episodes";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+@if (Model.Any())
+{
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Episode Title</th>
+                    <th>Podcast</th>
+                    <th>Creator</th>
+                    <th>Release Date</th>
+                    <th>Duration</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var episode in Model)
+                {
+                    <tr>
+                        <td>@episode.Title</td>
+                        <td>@episode.PodcastTitle</td>
+                        <td>@episode.CreatorName</td>
+                        <td>@episode.ReleaseDate.ToString("MMM dd, yyyy")</td>
+                        <td>@episode.Duration min</td>
+                        <td>
+                            <a asp-controller="Episode" asp-action="Details" asp-route-id="@episode.EpisodeID" class="btn btn-sm btn-info" target="_blank">View</a>
+                            <form asp-action="ApproveEpisode" method="post" class="d-inline">
+                                <input type="hidden" name="id" value="@episode.EpisodeID" />
+                                <button type="submit" class="btn btn-sm btn-success">Approve</button>
+                            </form>
+                            <form asp-action="RejectEpisode" method="post" class="d-inline">
+                                <input type="hidden" name="id" value="@episode.EpisodeID" />
+                                <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to reject and delete this episode?');">Reject</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+else
+{
+    <div class="alert alert-info">
+        <p>No episodes pending approval.</p>
+    </div>
+}

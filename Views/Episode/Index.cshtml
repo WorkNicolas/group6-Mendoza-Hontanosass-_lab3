@@ -1,0 +1,93 @@
+@model group6_Mendoza_Hontanosass__lab3.Models.ViewModels.EpisodeSearchViewModel
+@{
+    ViewData["Title"] = "Browse Episodes";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div class="row mb-4">
+    <div class="col-md-12">
+        <form asp-action="Search" method="post">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Search Episodes</h5>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group mb-3">
+                                <label asp-for="SearchTerm" class="control-label"></label>
+                                <input asp-for="SearchTerm" class="form-control" placeholder="Search by title or description..." />
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group mb-3">
+                                <label asp-for="PodcastID" class="control-label"></label>
+                                <select asp-for="PodcastID" class="form-control">
+                                    <option value="">All Podcasts</option>
+                                    @foreach (var podcast in Model.AvailablePodcasts)
+                                    {
+                                        <option value="@podcast.PodcastID">@podcast.Title</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group mb-3">
+                                <label asp-for="FromDate" class="control-label"></label>
+                                <input asp-for="FromDate" class="form-control" type="date" />
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group mb-3">
+                                <label asp-for="ToDate" class="control-label"></label>
+                                <input asp-for="ToDate" class="form-control" type="date" />
+                            </div>
+                        </div>
+                        <div class="col-md-1">
+                            <div class="form-group mb-3">
+                                <label>&nbsp;</label>
+                                <button type="submit" class="btn btn-primary form-control">Search</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label asp-for="SortBy" class="control-label"></label>
+                                <select asp-for="SortBy" class="form-control">
+                                    <option value="ReleaseDate">Release Date</option>
+                                    <option value="Title">Title</option>
+                                    <option value="Views">Views</option>
+                                    <option value="PlayCount">Play Count</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="row">
+    @foreach (var item in Model.Results)
+    {
+        <div class="col-md-6 mb-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">@item.Title</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">@item.Podcast?.Title</h6>
+                    @if (!string.IsNullOrEmpty(item.Description))
+                    {
+                        <p class="card-text">@item.Description.Substring(0, Math.Min(150, item.Description.Length))...</p>
+                    }
+                    <p class="card-text">
+                        <small class="text-muted">
+                            @item.ReleaseDate.ToString("MMM dd, yyyy") | @item.Duration min | @item.Views views | @item.PlayCount plays
+                        </small>
+                    </p>
+                    <a asp-action="Details" asp-route-id="@item.EpisodeID" class="btn btn-primary">Listen Now</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>

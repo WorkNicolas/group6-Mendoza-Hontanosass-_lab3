@@ -1,0 +1,49 @@
+@{
+    ViewData["Title"] = "Admin Panel";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div class="row mt-4">
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">User Management</h5>
+                <p class="card-text">Manage users, lock/unlock accounts, and view user statistics.</p>
+                <a asp-action="ManageUsers" class="btn btn-primary">Manage Users</a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Podcast Approval</h5>
+                <p class="card-text">Review and approve pending podcasts.</p>
+                <a asp-action="ApprovePodcasts" class="btn btn-primary">Approve Podcasts</a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Episode Approval</h5>
+                <p class="card-text">Review and approve pending episodes.</p>
+                <a asp-action="ApproveEpisodes" class="btn btn-primary">Approve Episodes</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Analytics</h5>
+                <p class="card-text">View comprehensive analytics and statistics.</p>
+                <a asp-controller="Analytics" asp-action="Dashboard" class="btn btn-primary">View Analytics</a>
+            </div>
+        </div>
+    </div>
+</div>

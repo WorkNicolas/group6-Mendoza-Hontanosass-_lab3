@@ -1,0 +1,53 @@
+@model group6_Mendoza_Hontanosass__lab3.Models.ViewModels.PodcastViewModel
+@{
+    ViewData["Title"] = "Edit Podcast";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div class="row">
+    <div class="col-md-8">
+        <form asp-action="Edit" method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="PodcastID" />
+            <input type="hidden" asp-for="ExistingThumbnailURL" />
+            
+            <div class="form-group mb-3">
+                <label asp-for="Title" class="control-label"></label>
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            
+            <div class="form-group mb-3">
+                <label asp-for="Description" class="control-label"></label>
+                <textarea asp-for="Description" class="form-control" rows="5"></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            
+            @if (!string.IsNullOrEmpty(Model.ExistingThumbnailURL))
+            {
+                <div class="form-group mb-3">
+                    <label>Current Thumbnail</label>
+                    <br />
+                    <img src="@Model.ExistingThumbnailURL" alt="Current thumbnail" style="max-width: 200px;" />
+                </div>
+            }
+            
+            <div class="form-group mb-3">
+                <label asp-for="ThumbnailFile" class="control-label"></label>
+                <input asp-for="ThumbnailFile" class="form-control" type="file" accept="image/*" />
+                <span asp-validation-for="ThumbnailFile" class="text-danger"></span>
+                <small class="form-text text-muted">Leave empty to keep current thumbnail</small>
+            </div>
+            
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Save</button>
+                <a asp-action="MyPodcasts" class="btn btn-secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

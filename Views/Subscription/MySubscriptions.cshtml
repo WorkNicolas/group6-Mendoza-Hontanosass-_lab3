@@ -1,0 +1,40 @@
+@model IEnumerable<group6_Mendoza_Hontanosass__lab3.Models.Subscription>
+@{
+    ViewData["Title"] = "My Subscriptions";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+@if (Model.Any())
+{
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    @if (!string.IsNullOrEmpty(item.Podcast?.ThumbnailURL))
+                    {
+                        <img src="@item.Podcast.ThumbnailURL" class="card-img-top" alt="@item.Podcast.Title" style="height: 200px; object-fit: cover;">
+                    }
+                    <div class="card-body">
+                        <h5 class="card-title">@item.Podcast?.Title</h5>
+                        <p class="card-text"><small class="text-muted">Subscribed on @item.SubscribedDate.ToString("MMM dd, yyyy")</small></p>
+                        <a asp-controller="Podcast" asp-action="Details" asp-route-id="@item.PodcastID" class="btn btn-primary btn-sm">View Podcast</a>
+                        <form asp-controller="Subscription" asp-action="Unsubscribe" method="post" class="d-inline">
+                            <input type="hidden" name="podcastId" value="@item.PodcastID" />
+                            <input type="hidden" name="returnUrl" value="@Context.Request.Path" />
+                            <button type="submit" class="btn btn-danger btn-sm">Unsubscribe</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
+else
+{
+    <div class="alert alert-info">
+        <p>You haven't subscribed to any podcasts yet.</p>
+        <a asp-controller="Podcast" asp-action="Index" class="btn btn-primary">Browse Podcasts</a>
+    </div>
+}

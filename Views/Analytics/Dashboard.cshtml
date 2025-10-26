@@ -1,0 +1,119 @@
+@model group6_Mendoza_Hontanosass__lab3.Models.ViewModels.AnalyticsViewModel
+@{
+    ViewData["Title"] = "Analytics Dashboard";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div class="row mb-4">
+    <div class="col-md-3">
+        <div class="card text-white bg-primary">
+            <div class="card-body">
+                <h5 class="card-title">Total Podcasts</h5>
+                <h2>@Model.TotalPodcasts</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-success">
+            <div class="card-body">
+                <h5 class="card-title">Total Episodes</h5>
+                <h2>@Model.TotalEpisodes</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-info">
+            <div class="card-body">
+                <h5 class="card-title">Total Views</h5>
+                <h2>@Model.TotalViews</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-warning">
+            <div class="card-body">
+                <h5 class="card-title">Total Comments</h5>
+                <h2>@Model.TotalComments</h2>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5>Top Episodes by Views</h5>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Episode</th>
+                                <th>Podcast</th>
+                                <th>Views</th>
+                                <th>Plays</th>
+                                <th>Comments</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var episode in Model.TopEpisodes)
+                            {
+                                <tr>
+                                    <td>
+                                        <a asp-controller="Episode" asp-action="Details" asp-route-id="@episode.EpisodeID">
+                                            @episode.Title
+                                        </a>
+                                    </td>
+                                    <td>@episode.PodcastTitle</td>
+                                    <td>@episode.Views</td>
+                                    <td>@episode.PlayCount</td>
+                                    <td>@episode.CommentCount</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6">
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5>Podcast Statistics</h5>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Podcast</th>
+                                <th>Episodes</th>
+                                <th>Total Views</th>
+                                <th>Subscribers</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var podcast in Model.PodcastStatistics)
+                            {
+                                <tr>
+                                    <td>
+                                        <a asp-controller="Podcast" asp-action="Details" asp-route-id="@podcast.PodcastID">
+                                            @podcast.Title
+                                        </a>
+                                    </td>
+                                    <td>@podcast.EpisodeCount</td>
+                                    <td>@podcast.TotalViews</td>
+                                    <td>@podcast.SubscriberCount</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

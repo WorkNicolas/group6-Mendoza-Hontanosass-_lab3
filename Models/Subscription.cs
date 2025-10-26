@@ -8,7 +8,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 /// - Represent user subscription data
 /// - Stored in SQL server
 /// </remarks>
-/// <author>Carl Nicolas Mendoza and Neil Hontanosass</author>
+/// <author>Carl Nicolas Mendoza and Neil Hontanosas</author>
 /// <version>0.1</version>
 /// <date>2025-10-25</date>
 namespace group6_Mendoza_Hontanosass__lab3.Models
@@ -16,7 +16,7 @@ namespace group6_Mendoza_Hontanosass__lab3.Models
     public class Subscription
     {
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int SubscriptionID { get; set; }
 
         [Required]

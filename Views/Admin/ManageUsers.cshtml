@@ -1,0 +1,68 @@
+@model IEnumerable<group6_Mendoza_Hontanosass__lab3.Models.ViewModels.UserManagementViewModel>
+@{
+    ViewData["Title"] = "Manage Users";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div class="table-responsive">
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th>Username</th>
+                <th>Full Name</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Podcasts</th>
+                <th>Created</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var user in Model)
+            {
+                <tr>
+                    <td>@user.Username</td>
+                    <td>@user.FullName</td>
+                    <td>@user.Email</td>
+                    <td>
+                        <span class="badge bg-secondary">@user.Role</span>
+                    </td>
+                    <td>@user.PodcastCount</td>
+                    <td>@user.CreatedDate.ToString("MMM dd, yyyy")</td>
+                    <td>
+                        @if (user.IsLocked)
+                        {
+                            <span class="badge bg-danger">Locked</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-success">Active</span>
+                        }
+                    </td>
+                    <td>
+                        @if (user.IsLocked)
+                        {
+                            <form asp-action="UnlockUser" method="post" class="d-inline">
+                                <input type="hidden" name="userId" value="@user.UserID" />
+                                <button type="submit" class="btn btn-sm btn-success">Unlock</button>
+                            </form>
+                        }
+                        else
+                        {
+                            <form asp-action="LockUser" method="post" class="d-inline">
+                                <input type="hidden" name="userId" value="@user.UserID" />
+                                <button type="submit" class="btn btn-sm btn-warning">Lock</button>
+                            </form>
+                        }
+                        <form asp-action="DeleteUser" method="post" class="d-inline">
+                            <input type="hidden" name="userId" value="@user.UserID" />
+                            <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this user?');">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

@@ -17,7 +17,7 @@ namespace group6_Mendoza_Hontanosass__lab3.Models.ViewModels
         public int TotalComments { get; set; }
         public List<TopEpisode> TopEpisodes { get; set; } = new List<TopEpisode>();
         public List<PodcastStats> PodcastStatistics { get; set; } = new List<PodcastStats>();
-        
+
     }
     public class TopEpisode
     {
@@ -34,4 +34,5 @@ namespace group6_Mendoza_Hontanosass__lab3.Models.ViewModels
         public int EpisodeCount { get; set; }
         public int TotalViews { get; set; }
         public int SubscriberCount { get; set; }
+    }
 }

@@ -1,0 +1,62 @@
+@model group6_Mendoza_Hontanosass__lab3.Models.Podcast
+@{
+    ViewData["Title"] = Model.Title;
+}
+
+<h1>@Model.Title</h1>
+
+<div class="row">
+    <div class="col-md-4">
+        @if (!string.IsNullOrEmpty(Model.ThumbnailURL))
+        {
+            <img src="@Model.ThumbnailURL" class="img-fluid" alt="@Model.Title">
+        }
+    </div>
+    <div class="col-md-8">
+        <h4>About</h4>
+        <p>@Model.Description</p>
+        <p><strong>Creator:</strong> @Model.Creator?.FullName</p>
+        <p><strong>Created:</strong> @Model.CreatedDate.ToString("MMMM dd, yyyy")</p>
+        
+        @if (User.Identity?.IsAuthenticated == true)
+        {
+            <form asp-controller="Subscription" asp-action="Subscribe" method="post" class="d-inline">
+                <input type="hidden" name="podcastId" value="@Model.PodcastID" />
+                <input type="hidden" name="returnUrl" value="@Context.Request.Path" />
+                <button type="submit" class="btn btn-success">Subscribe</button>
+            </form>
+        }
+        
+        @if (User.Identity?.IsAuthenticated == true && (Model.CreatorID == User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value || User.IsInRole("Admin")))
+        {
+            <a asp-action="Edit" asp-route-id="@Model.PodcastID" class="btn btn-warning">Edit</a>
+            <a asp-action="Delete" asp-route-id="@Model.PodcastID" class="btn btn-danger">Delete</a>
+            <a asp-controller="Episode" asp-action="Create" asp-route-podcastId="@Model.PodcastID" class="btn btn-primary">Add Episode</a>
+        }
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-12">
+        <h3>Episodes</h3>
+        @if (Model.Episodes != null && Model.Episodes.Any())
+        {
+            <div class="list-group">
+                @foreach (var episode in Model.Episodes.OrderByDescending(e => e.ReleaseDate))
+                {
+                    <a asp-controller="Episode" asp-action="Details" asp-route-id="@episode.EpisodeID" class="list-group-item list-group-item-action">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1">@episode.Title</h5>
+                            <small>@episode.ReleaseDate.ToString("MMM dd, yyyy")</small>
+                        </div>
+                        <p class="mb-1">@episode.Duration minutes | @episode.Views views</p>
+                    </a>
+                }
+            </div>
+        }
+        else
+        {
+            <p>No episodes yet.</p>
+        }
+    </div>
+</div>

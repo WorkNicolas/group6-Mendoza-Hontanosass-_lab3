@@ -1,0 +1,40 @@
+@model IEnumerable<group6_Mendoza_Hontanosass__lab3.Models.Podcast>
+@{
+    ViewData["Title"] = "All Podcasts";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+@if (User.IsInRole("Podcaster") || User.IsInRole("Admin"))
+{
+    <p>
+        <a asp-action="Create" class="btn btn-success">Create New Podcast</a>
+    </p>
+}
+
+<div class="row">
+    @foreach (var item in Model)
+    {
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                @if (!string.IsNullOrEmpty(item.ThumbnailURL))
+                {
+                    <img src="@item.ThumbnailURL" class="card-img-top" alt="@item.Title" style="height: 200px; object-fit: cover;">
+                }
+                else
+                {
+                    <div class="card-img-top bg-secondary d-flex align-items-center justify-content-center" style="height: 200px;">
+                        <span class="text-white">No Image</span>
+                    </div>
+                }
+                <div class="card-body">
+                    <h5 class="card-title">@item.Title</h5>
+                    <p class="card-text">@item.Description.Substring(0, Math.Min(100, item.Description.Length))...</p>
+                    <p class="card-text"><small class="text-muted">By @item.Creator?.FullName</small></p>
+                    <p class="card-text"><small class="text-muted">Created @item.CreatedDate.ToString("MMM dd, yyyy")</small></p>
+                    <a asp-action="Details" asp-route-id="@item.PodcastID" class="btn btn-primary">View Details</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>

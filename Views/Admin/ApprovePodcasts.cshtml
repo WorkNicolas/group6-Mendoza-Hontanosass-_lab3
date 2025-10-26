@@ -1,0 +1,47 @@
+@model IEnumerable<group6_Mendoza_Hontanosass__lab3.Models.Podcast>
+@{
+    ViewData["Title"] = "Approve Podcasts";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+@if (Model.Any())
+{
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Creator</th>
+                    <th>Description</th>
+                    <th>Created</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var podcast in Model)
+                {
+                    <tr>
+                        <td>@podcast.Title</td>
+                        <td>@podcast.Creator?.FullName</td>
+                        <td>@podcast.Description.Substring(0, Math.Min(100, podcast.Description.Length))...</td>
+                        <td>@podcast.CreatedDate.ToString("MMM dd, yyyy")</td>
+                        <td>
+                            <a asp-controller="Podcast" asp-action="Details" asp-route-id="@podcast.PodcastID" class="btn btn-sm btn-info" target="_blank">View</a>
+                            <form asp-action="ApprovePodcast" method="post" class="d-inline">
+                                <input type="hidden" name="id" value="@podcast.PodcastID" />
+                                <button type="submit" class="btn btn-sm btn-success">Approve</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+else
+{
+    <div class="alert alert-info">
+        <p>No podcasts pending approval.</p>
+    </div>
+}

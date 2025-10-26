@@ -1,0 +1,74 @@
+@model group6_Mendoza_Hontanosass__lab3.Models.ViewModels.EpisodeViewModel
+@{
+    ViewData["Title"] = "Create Episode";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div class="row">
+    <div class="col-md-8">
+        <form asp-action="Create" method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            
+            <div class="form-group mb-3">
+                <label asp-for="PodcastID" class="control-label"></label>
+                <select asp-for="PodcastID" class="form-control">
+                    <option value="">-- Select Podcast --</option>
+                    @if (ViewBag.Podcasts != null)
+                    {
+                        @foreach (var podcast in ViewBag.Podcasts)
+                        {
+                            <option value="@podcast.PodcastID" selected="@(podcast.PodcastID == Model.PodcastID)">@podcast.Title</option>
+                        }
+                    }
+                </select>
+                <span asp-validation-for="PodcastID" class="text-danger"></span>
+            </div>
+            
+            <div class="form-group mb-3">
+                <label asp-for="Title" class="control-label"></label>
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            
+            <div class="form-group mb-3">
+                <label asp-for="Description" class="control-label"></label>
+                <textarea asp-for="Description" class="form-control" rows="5"></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            
+            <div class="form-group mb-3">
+                <label asp-for="ReleaseDate" class="control-label"></label>
+                <input asp-for="ReleaseDate" class="form-control" type="date" />
+                <span asp-validation-for="ReleaseDate" class="text-danger"></span>
+            </div>
+            
+            <div class="form-group mb-3">
+                <label asp-for="Duration" class="control-label"></label>
+                <input asp-for="Duration" class="form-control" type="number" min="1" />
+                <span asp-validation-for="Duration" class="text-danger"></span>
+            </div>
+            
+            <div class="form-group mb-3">
+                <label asp-for="AudioFile" class="control-label"></label>
+                <input asp-for="AudioFile" class="form-control" type="file" accept="audio/*" required />
+                <span asp-validation-for="AudioFile" class="text-danger"></span>
+            </div>
+            
+            <div class="form-group mb-3">
+                <label asp-for="ThumbnailFile" class="control-label"></label>
+                <input asp-for="ThumbnailFile" class="form-control" type="file" accept="image/*" />
+                <span asp-validation-for="ThumbnailFile" class="text-danger"></span>
+            </div>
+            
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Create</button>
+                <a asp-controller="Podcast" asp-action="MyPodcasts" class="btn btn-secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

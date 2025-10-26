@@ -1,8 +1,57 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+@{
+    ViewData["Title"] = "Home";
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h1 class="display-4">Welcome to Podcast Management System</h1>
+    <p class="lead">Discover, create, and share amazing podcasts</p>
+</div>
+
+<div class="row mt-5">
+    <div class="col-md-12">
+        <h2>Featured Podcasts</h2>
+        <div class="row">
+            @if (ViewBag.Podcasts != null)
+            {
+                @foreach (var podcast in ViewBag.Podcasts)
+                {
+                    <div class="col-md-4 mb-4">
+                        <div class="card">
+                            @if (!string.IsNullOrEmpty(podcast.ThumbnailURL))
+                            {
+                                <img src="@podcast.ThumbnailURL" class="card-img-top" alt="@podcast.Title">
+                            }
+                            <div class="card-body">
+                                <h5 class="card-title">@podcast.Title</h5>
+                                <p class="card-text">@podcast.Description.Substring(0, Math.Min(100, podcast.Description.Length))...</p>
+                                <a asp-controller="Podcast" asp-action="Details" asp-route-id="@podcast.PodcastID" class="btn btn-primary">View Details</a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-12">
+        <h2>Recent Episodes</h2>
+        <div class="list-group">
+            @if (ViewBag.RecentEpisodes != null)
+            {
+                @foreach (var episode in ViewBag.RecentEpisodes)
+                {
+                    <a asp-controller="Episode" asp-action="Details" asp-route-id="@episode.EpisodeID" class="list-group-item list-group-item-action">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1">@episode.Title</h5>
+                            <small>@episode.ReleaseDate.ToString("MMM dd, yyyy")</small>
+                        </div>
+                        <p class="mb-1">@episode.Podcast?.Title</p>
+                        <small>@episode.Duration minutes | @episode.Views views</small>
+                    </a>
+                }
+            }
+        </div>
+    </div>
 </div>

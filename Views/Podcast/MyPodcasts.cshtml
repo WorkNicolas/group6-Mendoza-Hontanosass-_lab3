@@ -1,0 +1,36 @@
+@model IEnumerable<group6_Mendoza_Hontanosass__lab3.Models.Podcast>
+@{
+    ViewData["Title"] = "My Podcasts";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-success">Create New Podcast</a>
+</p>
+
+<div class="row">
+    @foreach (var item in Model)
+    {
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                @if (!string.IsNullOrEmpty(item.ThumbnailURL))
+                {
+                    <img src="@item.ThumbnailURL" class="card-img-top" alt="@item.Title" style="height: 200px; object-fit: cover;">
+                }
+                <div class="card-body">
+                    <h5 class="card-title">@item.Title</h5>
+                    <p class="card-text">
+                        <span class="badge bg-@(item.IsApproved ? "success" : "warning")">
+                            @(item.IsApproved ? "Approved" : "Pending Approval")
+                        </span>
+                    </p>
+                    <p class="card-text"><small class="text-muted">Created @item.CreatedDate.ToString("MMM dd, yyyy")</small></p>
+                    <a asp-action="Details" asp-route-id="@item.PodcastID" class="btn btn-primary btn-sm">Details</a>
+                    <a asp-action="Edit" asp-route-id="@item.PodcastID" class="btn btn-warning btn-sm">Edit</a>
+                    <a asp-action="Delete" asp-route-id="@item.PodcastID" class="btn btn-danger btn-sm">Delete</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>
