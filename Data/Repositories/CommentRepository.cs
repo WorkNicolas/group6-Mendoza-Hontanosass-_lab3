@@ -41,18 +41,13 @@ namespace group6_Mendoza_Hontanosass__lab3.Data.Repositories
 
         public async Task<IEnumerable<Comment>> GetByUserIdAsync(string userId)
         {
-            var table = Table.LoadTable(_context.Client, "Comments"); // CS1061 _context.Client
-            var query = table.Query(new QueryOperationConfig
+            var config = new DynamoDBOperationConfig
             {
-                IndexName = "UserID-Index",
-                Filter = new QueryFilter("UserID", QueryOperator.Equal, userId)
-            });
-            var comments = new List<Comment>();
-            var results = await query.GetRemainingAsync();
-            foreach (var item in results)
-            {
-                comments.Add(_context.FromDocument<Comment>(item));
-            }
+                IndexName = "UserID-Index"
+            };
+
+            var search = _context.QueryAsync<Comment>(userId, config); // DEPRECATED: idk what to replace this with
+            var comments = await search.GetRemainingAsync();
             return comments.OrderByDescending(c => c.Timestamp);
         }
 
